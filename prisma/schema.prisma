@@ -18,7 +18,7 @@ model Aluno {
   nome     String
   email    String
   cpf      String
-  cadeiras Cadeira[] @relation("aluno_cadeira")
+  cadeiras AlunoCadeira[] 
 
   @@map("alunos")
 }
@@ -26,8 +26,21 @@ model Aluno {
 model Cadeira {
   id      Int      @id @default(autoincrement())
   nome    String
-  alunos  Aluno[]  @relation("aluno_cadeira")
+  alunos  AlunoCadeira[]  
 
   @@map("cadeiras")
+}
+
+model AlunoCadeira {
+  aluno_id Int 
+  aluno Aluno @relation(fields: [aluno_id], references: [id])
+  cadeira_id Int
+  cadeira Cadeira @relation(fields: [cadeira_id], references: [id])
+  start_date DateTime
+  end_date DateTime
+  status_id Int
+
+  @@id([aluno_id, cadeira_id])
+  @@map("aluno_cadeira")
 }
 

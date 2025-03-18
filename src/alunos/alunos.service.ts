@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-
 @Injectable()
 export class AlunosService {
   constructor(private readonly prisma: PrismaService) {}
@@ -53,14 +52,19 @@ export class AlunosService {
   }
 
   async findAlunoCadeiras(id: number) {
-    const resp = this.prisma
-      .$queryRaw`SELECT a.nome, STRING_AGG(c.nome, ', ') as cadeira
-      from alunos a , cadeiras c , aluno_cadeira ac 
-      where ac.aluno_id = ${id}
-      and ac.aluno_id = a.id 
-      and ac.cadeira_id = c.id
-      group by a.nome`;
+    const resp = await this.prisma
+      .$queryRaw`SELECT a.nome, STRING_AGG(c.nome, ', ')as cadeira
+    from alunos a , cadeiras c , aluno_cadeira ac 
+    where ac.aluno_id = ${id}
+    and ac.aluno_id = a.id 
+    and ac.cadeira_id = c.id
+    group by a.nome `;
+    // const resp = await this.prisma.$queryRaw`SELECT c.nome
+    //   FROM cadeiras c
+    //   JOIN aluno_cadeira ac ON c.id = ac.cadeira_id
+    //   WHERE ac.aluno_id = ${id}`;
 
+    // const cadeiras = (resp as { nome: string }[]).map(({ nome }) => nome);
     return resp;
   }
 }
