@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { CadeirasService } from './cadeiras.service';
 import { CreateCadeiraDto } from './dto/create-cadeira.dto';
@@ -30,7 +30,7 @@ export class CadeirasController {
     return this.cadeirasService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateCadeiraDto: UpdateCadeiraDto) {
     return this.cadeirasService.update(+id, updateCadeiraDto);
   }

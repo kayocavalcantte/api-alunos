@@ -31,8 +31,8 @@ export class AlunoCadeirasController {
 
   @Put(':id')
   update(
-    @Param('id') alunoId: string,
-    @Body() body: { cadeiraId: string; status_id: string },
+    @Param('id') alunoId: number,
+    @Body() body: { cadeiraId: number; status_id: number },
   ) {
     return this.alunoCadeirasService.update(
       alunoId,

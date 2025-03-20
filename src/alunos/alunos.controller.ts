@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { AlunosService } from './alunos.service';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
@@ -30,7 +30,7 @@ export class AlunosController {
     return this.alunosService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(@Param('id') id: string, @Body() updateAlunoDto: UpdateAlunoDto) {
     return this.alunosService.update(+id, updateAlunoDto);
   }
@@ -38,18 +38,5 @@ export class AlunosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.alunosService.remove(+id);
-  }
-
-  @Post('cadeiras/:id')
-  addCadeira(
-    @Param('id') alunoId: number,
-    @Body() body: { cadeiraId: number },
-  ) {
-    return this.alunosService.addCadeira(alunoId, body.cadeiraId);
-  }
-
-  @Get('cadeiras/:id')
-  findAlunoCadeiras(@Param('id') alunoId: number) {
-    return this.alunosService.findAlunoCadeiras(alunoId);
   }
 }

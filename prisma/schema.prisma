@@ -39,8 +39,16 @@ model AlunoCadeira {
   start_date DateTime
   end_date DateTime
   status_id Int
+  alunoCadeiraStatus AlunoCadeiraStatus @relation(fields: [status_id], references: [id])
 
   @@id([aluno_id, cadeira_id])
   @@map("aluno_cadeira")
 }
 
+model AlunoCadeiraStatus{
+  id Int @id @default(autoincrement())
+  descricao String
+  aluno_cadeira AlunoCadeira[]
+  
+  @@map("aluno_cadeira_status")
+}

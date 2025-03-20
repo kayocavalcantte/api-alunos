@@ -1,45 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCadeiraDto } from './dto/create-cadeira.dto';
 import { UpdateCadeiraDto } from './dto/update-cadeira.dto';
-import { PrismaService } from 'src/database/prisma/prisma.service';
+import { CadeirasRepository } from './repositories/cadeiras.repositoy';
 
 @Injectable()
 export class CadeirasService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly cadeiraRepository: CadeirasRepository) {}
 
   async create(data: CreateCadeiraDto) {
-    const resp = await this.prisma.cadeira.create({
-      data,
-    });
-    return resp;
+    return this.cadeiraRepository.create(data);
   }
 
   async findAll() {
-    const resp = await this.prisma.cadeira.findMany();
-    return resp;
+    return this.cadeiraRepository.findAll();
   }
 
   findOne(id: number) {
-    const resp = this.prisma.cadeira.findUnique({
-      where: { id: id },
-    });
-    return resp;
+    return this.cadeiraRepository.findOne(id);
   }
 
   update(id: number, updateCadeiraDto: UpdateCadeiraDto) {
-    void this.findOne(id);
-    const resp = this.prisma.cadeira.update({
-      where: { id: id },
-      data: updateCadeiraDto,
-    });
-    return resp;
+    return this.cadeiraRepository.update(id, updateCadeiraDto);
   }
 
   async remove(id: number) {
-    void this.findOne(id);
-    const resp = await this.prisma.cadeira.delete({
-      where: { id: id },
-    });
-    return resp;
+    return this.cadeiraRepository.remove(id);
   }
 }
